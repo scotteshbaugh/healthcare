@@ -1,3 +1,5 @@
+import { radius, type } from '../tokens'
+
 interface ToastProps {
   message: string | null
 }
@@ -16,8 +18,8 @@ export function Toast({ message }: ToastProps) {
         border: '0.5px solid var(--border-strong)',
         color: 'var(--text-primary)',
         padding: '10px 16px',
-        borderRadius: 'var(--radius)',
-        fontSize: 13,
+        borderRadius: radius.radius03,
+        ...type.helperText01,
         maxWidth: 480,
         boxShadow: '0 4px 16px rgba(0,0,0,0.2)',
         zIndex: 9999,

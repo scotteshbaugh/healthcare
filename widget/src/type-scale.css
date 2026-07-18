@@ -1,0 +1,15 @@
+/**
+ * Carbon type scale, as CSS custom properties -- same values as typeScale in
+ * tokens.ts. Exists so plain-CSS rules (not inline React styles) can
+ * reference the scale too, instead of a hardcoded px literal.
+ * Source: @carbon/type@11.63.0. https://carbondesignsystem.com/elements/typography/overview/
+ */
+
+:root {
+  --type-scale-01: 12px;
+  --type-scale-02: 14px;
+  --type-scale-03: 16px;
+  --type-scale-04: 18px;
+  --type-scale-05: 20px;
+  --type-scale-06: 24px;
+}

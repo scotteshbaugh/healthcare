@@ -1,24 +1,18 @@
-import { tiers, edges, rangeMultiplier } from '../data'
+import { tiers, edges } from '../data'
 import { CENTER, bezierPoint, pointOnRing, quadraticPath } from '../geometry'
-import type { Mode, RangeWeeks, TierId } from '../types'
+import { type } from '../tokens'
+import type { TierId } from '../types'
 
 interface TierDiagramProps {
-  mode: Mode
-  range: RangeWeeks
   hoveredNode: TierId | null
   hoveredEdge: string | null
   onHoverNode: (id: TierId | null) => void
   onHoverEdge: (id: string | null) => void
 }
 
-function edgeCount(alert: number, avg: number, mode: Mode, range: RangeWeeks) {
-  const base = mode === 'alert' ? alert : avg
-  return Math.round(base * rangeMultiplier[range])
-}
-
-export function TierDiagram({ mode, range, hoveredNode, hoveredEdge, onHoverNode, onHoverEdge }: TierDiagramProps) {
+export function TierDiagram({ hoveredNode, hoveredEdge, onHoverNode, onHoverEdge }: TierDiagramProps) {
   return (
-    <div style={{ background: 'var(--surface-1)', borderRadius: 12, padding: '0.5rem' }}>
+    <div style={{ background: 'var(--surface-1)', padding: '0.5rem' }}>
       <svg
         viewBox="0 0 380 390"
         style={{ width: '100%', height: 'auto' }}
@@ -37,7 +31,7 @@ export function TierDiagram({ mode, range, hoveredNode, hoveredEdge, onHoverNode
           const p0 = pointOnRing(from.angle)
           const p1 = pointOnRing(to.angle)
           const isHovered = hoveredEdge === e.id
-          const count = edgeCount(e.alert, e.avg, mode, range)
+          const count = e.alert
           const strokeWidth = 1 + Math.sqrt(count) * 0.35
           const d = quadraticPath(p0, CENTER, p1)
           const labelPos = bezierPoint(p0, CENTER, p1, 0.72)
@@ -66,8 +60,7 @@ export function TierDiagram({ mode, range, hoveredNode, hoveredEdge, onHoverNode
                 x={labelPos.x}
                 y={labelPos.y}
                 textAnchor="middle"
-                fontSize={12}
-                fontWeight={500}
+                style={type.label01}
                 fill={isHovered ? 'var(--text-accent)' : 'var(--text-secondary)'}
                 pointerEvents="none"
               >
@@ -95,10 +88,10 @@ export function TierDiagram({ mode, range, hoveredNode, hoveredEdge, onHoverNode
               onMouseLeave={() => onHoverNode(null)}
             >
               <circle cx={p.x} cy={p.y} r={rr} fill={fill} stroke={stroke} strokeWidth={isHovered ? 2 : 1} />
-              <text x={p.x} y={p.y + dy - 8} textAnchor="middle" fontSize={12} fill="var(--text-primary)">
+              <text x={p.x} y={p.y + dy - 8} textAnchor="middle" style={type.label01} fill="var(--text-primary)">
                 {t.label}
               </text>
-              <text x={p.x} y={p.y + dy + 7} textAnchor="middle" fontSize={11} fontWeight={500} fill={textColor}>
+              <text x={p.x} y={p.y + dy + 7} textAnchor="middle" style={type.label01} fill={textColor}>
                 {t.pop}
               </text>
             </g>

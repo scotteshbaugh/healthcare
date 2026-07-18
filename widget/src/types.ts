@@ -16,6 +16,3 @@ export interface MigrationEdge {
   alert: number
   avg: number
 }
-
-export type Mode = 'alert' | 'avg'
-export type RangeWeeks = 3 | 6 | 12

@@ -1,61 +1,39 @@
 import { useState } from 'react'
+import { ModelSelector, ModelSelectorTrigger, type ModelOption } from './elements/model-selector'
+import { PromptInput, PromptInputSubmit, PromptInputTextarea, PromptInputToolbar, PromptInputTools } from './elements/prompt-input'
 
-const chips = [
-  { label: 'Why the jump this window?', prompt: 'Why did more patients than usual move into high risk this window?' },
-  { label: 'Which patients moved from at risk?', prompt: 'Which patients moved from at risk to high risk?' },
-  { label: 'Compare to last quarter', prompt: 'Compare this window to last quarter.' },
+const riskModels: ModelOption[] = [
+  { id: 'lace', label: 'LACE Index', group: 'Claims-based', description: 'readmission risk' },
+  { id: 'hcc', label: 'HCC Risk Adjustment', group: 'Claims-based', description: 'CMS-HCC' },
+  { id: 'acg', label: 'Johns Hopkins ACG', group: 'Claims-based', description: 'population morbidity' },
+  { id: 'xgb', label: 'Custom XGBoost v3', group: 'ML models', description: 'internal' },
 ]
 
-interface PromptBarProps {
-  onSubmit: (text: string) => void
-}
-
-export function PromptBar({ onSubmit }: PromptBarProps) {
-  const [value, setValue] = useState('')
-
-  function send(text: string) {
-    if (text.trim()) {
-      onSubmit(text.trim())
-      setValue('')
-    }
-  }
+export function PromptBar() {
+  const [modelOpen, setModelOpen] = useState(false)
+  const [model, setModel] = useState('lace')
 
   return (
-    <>
-      <div style={{ display: 'flex', gap: 6, marginBottom: 8, flexWrap: 'wrap' }}>
-        {chips.map((chip) => (
-          <button
-            key={chip.label}
-            onClick={() => onSubmit(chip.prompt)}
-            style={{
-              fontSize: 12,
-              padding: '4px 10px',
-              height: 'auto',
-              border: '0.5px solid var(--border)',
-              borderRadius: 999,
-              background: 'transparent',
-              color: 'var(--text-secondary)',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {chip.label}
-          </button>
-        ))}
-      </div>
-      <div style={{ display: 'flex', gap: 8, alignItems: 'center', borderTop: '0.5px solid var(--border)', paddingTop: 12 }}>
-        <input
-          placeholder="Ask about this flow..."
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') send(value)
-          }}
-          style={{ flex: 1 }}
-        />
-        <button aria-label="Send" onClick={() => send(value)}>
-          <i className="ti ti-arrow-right" aria-hidden="true" />
-        </button>
-      </div>
-    </>
+    <div style={{ borderTop: '0.5px solid var(--border)', paddingTop: 12 }}>
+      <PromptInput onSubmit={() => {}}>
+        <PromptInputTextarea placeholder="Ask about this flow..." />
+        <PromptInputToolbar>
+          <PromptInputTools>
+            <ModelSelectorTrigger value={model} options={riskModels} onClick={() => setModelOpen(true)} />
+          </PromptInputTools>
+          <PromptInputSubmit />
+        </PromptInputToolbar>
+      </PromptInput>
+
+      <ModelSelector
+        open={modelOpen}
+        onOpenChange={setModelOpen}
+        options={riskModels}
+        value={model}
+        onSelect={setModel}
+        placeholder="Search risk models..."
+        title="Select risk model"
+      />
+    </div>
   )
 }

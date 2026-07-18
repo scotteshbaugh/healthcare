@@ -1,0 +1,59 @@
+/**
+ * cmdk (packages/elements' model-selector is built on this) ships unstyled --
+ * every element is a bare div carrying a [cmdk-*] attribute, no classes, no
+ * CSS at all. This is the styling layer, using this project's tokens.
+ * Only the states that need a real CSS selector (keyboard-highlighted item)
+ * live here; everything else is inline styles in model-selector.tsx.
+ */
+
+[cmdk-overlay] {
+  position: fixed;
+  inset: 0;
+  background: var(--overlay, rgba(0, 0, 0, 0.5));
+  z-index: 1000;
+}
+
+[cmdk-dialog] {
+  position: fixed;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(480px, calc(100vw - 32px));
+  z-index: 1001;
+}
+
+[cmdk-root] {
+  background: var(--surface-2);
+  border: 0.5px solid var(--border-strong);
+  border-radius: var(--radius-03);
+  overflow: hidden;
+}
+
+[cmdk-list] {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+[cmdk-item] {
+  cursor: pointer;
+}
+
+[cmdk-item][data-selected='true'] {
+  background: var(--surface-1);
+}
+
+[cmdk-item][data-disabled='true'] {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+[cmdk-group-heading] {
+  color: var(--text-secondary);
+}
+
+[cmdk-separator] {
+  height: 0.5px;
+  background: var(--border);
+  border: none;
+  margin: 4px 0;
+}

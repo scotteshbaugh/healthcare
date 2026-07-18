@@ -1,0 +1,160 @@
+/**
+ * Carbon Design System global/semantic color tokens, referencing the
+ * primitive palette in palette.css via var().
+ *
+ * Source: @carbon/styles@1.111.0 compiled css/styles.css, .cds--white and
+ * .cds--g100 theme blocks. https://carbondesignsystem.com/elements/color/overview/
+ *
+ * Component-specific tokens (button, tag, notification, chat, syntax,
+ * tooltip, tile) and hover/active/selected interaction-state tokens are
+ * intentionally excluded from this first pass -- this project doesn't use
+ * Carbon's React components, and interaction states are a natural follow-up
+ * once real hover/active styling is wired into components.
+ *
+ * rgba() values are alpha-composited from a primitive (noted per line) --
+ * kept as literal rgba rather than forced through var() to avoid relying on
+ * relative-color CSS syntax.
+ *
+ * Not wired into any component yet. theme.css keeps its own simpler
+ * --surface-*/--text-*/--border-* variables for now.
+ */
+
+@import './palette.css';
+
+:root {
+  --background: var(--white);
+  --background-brand: var(--blue-60);
+  --background-inverse: var(--gray-80);
+  --layer: var(--gray-10);
+  --layer-01: var(--gray-10);
+  --layer-02: var(--white);
+  --layer-03: var(--gray-10);
+  --field: var(--gray-10);
+  --field-01: var(--gray-10);
+  --field-02: var(--white);
+  --field-03: var(--gray-10);
+  --border-subtle: var(--gray-20);
+  --border-subtle-00: var(--gray-20);
+  --border-subtle-01: var(--gray-30);
+  --border-subtle-02: var(--gray-20);
+  --border-subtle-03: var(--gray-30);
+  --border-strong: var(--gray-50);
+  --border-strong-01: var(--gray-50);
+  --border-strong-02: var(--gray-50);
+  --border-strong-03: var(--gray-50);
+  --border-disabled: var(--gray-30);
+  --border-inverse: var(--gray-100);
+  --border-interactive: var(--blue-60);
+  --text-primary: var(--gray-100);
+  --text-secondary: var(--gray-70);
+  --text-helper: var(--gray-60);
+  --text-disabled: rgba(22, 22, 22, 0.25); /* gray-100 @ 25% alpha */
+  --text-inverse: var(--white);
+  --text-placeholder: rgba(22, 22, 22, 0.4); /* gray-100 @ 40% alpha */
+  --text-error: var(--red-60);
+  --text-on-color: var(--white);
+  --text-on-color-disabled: var(--gray-50);
+  --link-primary: var(--blue-60);
+  --link-primary-hover: var(--blue-70);
+  --link-secondary: var(--blue-70);
+  --link-visited: var(--purple-60);
+  --link-inverse: var(--blue-40);
+  --link-inverse-hover: var(--blue-30);
+  --link-inverse-active: var(--gray-10);
+  --link-inverse-visited: var(--purple-40);
+  --icon-primary: var(--gray-100);
+  --icon-secondary: var(--gray-70);
+  --icon-disabled: rgba(22, 22, 22, 0.25); /* gray-100 @ 25% alpha */
+  --icon-inverse: var(--white);
+  --icon-interactive: var(--blue-60);
+  --icon-on-color: var(--white);
+  --icon-on-color-disabled: var(--gray-50);
+  --support-error: var(--red-60);
+  --support-error-inverse: var(--red-50);
+  --support-success: var(--green-50);
+  --support-success-inverse: var(--green-40);
+  --support-warning: var(--yellow-30);
+  --support-warning-inverse: var(--yellow-30);
+  --support-info: var(--blue-70);
+  --support-info-inverse: var(--blue-50);
+  --support-caution-major: var(--orange-40);
+  --support-caution-minor: var(--yellow-30);
+  --support-caution-undefined: var(--purple-60);
+  --focus: var(--blue-60);
+  --focus-inset: var(--white);
+  --focus-inverse: var(--white);
+  --overlay: rgba(0, 0, 0, 0.6); /* black @ 60% alpha */
+  --highlight: var(--blue-20);
+  --interactive: var(--blue-60);
+  --skeleton-element: var(--gray-30);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--gray-100);
+    --background-brand: var(--blue-60);
+    --background-inverse: var(--gray-10);
+    --layer: var(--gray-90);
+    --layer-01: var(--gray-90);
+    --layer-02: var(--gray-80);
+    --layer-03: var(--gray-70);
+    --field: var(--gray-90);
+    --field-01: var(--gray-90);
+    --field-02: var(--gray-80);
+    --field-03: var(--gray-70);
+    --border-subtle: var(--gray-80);
+    --border-subtle-00: var(--gray-80);
+    --border-subtle-01: var(--gray-70);
+    --border-subtle-02: var(--gray-60);
+    --border-subtle-03: var(--gray-60);
+    --border-strong: var(--gray-60);
+    --border-strong-01: var(--gray-60);
+    --border-strong-02: var(--gray-50);
+    --border-strong-03: var(--gray-40);
+    --border-disabled: rgba(141, 141, 141, 0.5); /* gray-50 @ 50% alpha */
+    --border-inverse: var(--gray-10);
+    --border-interactive: var(--blue-50);
+    --text-primary: var(--gray-10);
+    --text-secondary: var(--gray-30);
+    --text-helper: var(--gray-40);
+    --text-disabled: rgba(244, 244, 244, 0.25); /* gray-10 @ 25% alpha */
+    --text-inverse: var(--gray-100);
+    --text-placeholder: rgba(244, 244, 244, 0.4); /* gray-10 @ 40% alpha */
+    --text-error: var(--red-40);
+    --text-on-color: var(--white);
+    --text-on-color-disabled: rgba(255, 255, 255, 0.25); /* white @ 25% alpha */
+    --link-primary: var(--blue-40);
+    --link-primary-hover: var(--blue-30);
+    --link-secondary: var(--blue-30);
+    --link-visited: var(--purple-40);
+    --link-inverse: var(--blue-60);
+    --link-inverse-hover: var(--blue-70);
+    --link-inverse-active: var(--gray-100);
+    --link-inverse-visited: var(--purple-60);
+    --icon-primary: var(--gray-10);
+    --icon-secondary: var(--gray-30);
+    --icon-disabled: rgba(244, 244, 244, 0.25); /* gray-10 @ 25% alpha */
+    --icon-inverse: var(--gray-100);
+    --icon-interactive: var(--white);
+    --icon-on-color: var(--white);
+    --icon-on-color-disabled: rgba(255, 255, 255, 0.25); /* white @ 25% alpha */
+    --support-error: var(--red-50);
+    --support-error-inverse: var(--red-60);
+    --support-success: var(--green-40);
+    --support-success-inverse: var(--green-50);
+    --support-warning: var(--yellow-30);
+    --support-warning-inverse: var(--yellow-30);
+    --support-info: var(--blue-50);
+    --support-info-inverse: var(--blue-70);
+    --support-caution-major: var(--orange-40);
+    --support-caution-minor: var(--yellow-30);
+    --support-caution-undefined: var(--purple-50);
+    --focus: var(--white);
+    --focus-inset: var(--gray-100);
+    --focus-inverse: var(--blue-60);
+    --overlay: rgba(0, 0, 0, 0.6); /* black @ 60% alpha */
+    --highlight: var(--blue-90);
+    --interactive: var(--blue-50);
+    --skeleton-element: var(--gray-80);
+  }
+}

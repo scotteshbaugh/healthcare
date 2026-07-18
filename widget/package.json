@@ -10,8 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@carbon/icons-react": "^11.84.0",
+    "@fontsource/ibm-plex-sans": "^5.2.8",
+    "cmdk": "^1.1.1",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react-dom": "^19.2.7",
+    "use-stick-to-bottom": "^1.1.6"
   },
   "devDependencies": {
     "@types/node": "^24.13.2",

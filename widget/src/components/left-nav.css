@@ -1,0 +1,14 @@
+/**
+ * Hover states for LeftNav -- inline styles can't express :hover, so the
+ * interactive rows/buttons live here. Everything else about LeftNav is
+ * inline, styled from tokens.ts.
+ */
+
+.nav-row:hover {
+  background: var(--surface-1);
+  color: var(--text-primary);
+}
+
+.nav-icon-btn:hover {
+  background: var(--surface-1);
+}

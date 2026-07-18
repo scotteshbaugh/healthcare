@@ -1,43 +1,33 @@
 import type { CSSProperties } from 'react'
-import { edges, rangeMultiplier, tiers } from '../data'
-import type { Mode, RangeWeeks, TierId } from '../types'
+import { edges, tiers } from '../data'
+import { type } from '../tokens'
+import type { TierId } from '../types'
 
 interface InsightPanelProps {
-  mode: Mode
-  range: RangeWeeks
   hoveredNode: TierId | null
   hoveredEdge: string | null
 }
 
-function edgeCount(alert: number, avg: number, mode: Mode, range: RangeWeeks) {
-  const base = mode === 'alert' ? alert : avg
-  return Math.round(base * rangeMultiplier[range])
-}
-
-export function InsightPanel({ mode, range, hoveredNode, hoveredEdge }: InsightPanelProps) {
+export function InsightPanel({ hoveredNode, hoveredEdge }: InsightPanelProps) {
   const panelStyle: CSSProperties = {
     background: 'var(--surface-1)',
-    borderRadius: 'var(--radius)',
     padding: '1rem',
-    minHeight: 280,
-    fontSize: 14,
-    lineHeight: 1.6,
+    height: '100%',
+    ...type.body01,
   }
 
   if (hoveredEdge) {
     const e = edges.find((x) => x.id === hoveredEdge)!
-    const count = edgeCount(e.alert, e.avg, mode, range)
-    const avgCount = Math.round(e.avg * rangeMultiplier[range])
-    const delta = count - avgCount
+    const delta = e.alert - e.avg
 
     return (
       <div style={panelStyle}>
-        <p style={{ margin: '0 0 8px', fontSize: 13, fontWeight: 500, color: 'var(--text-accent)' }}>{e.label}</p>
-        <p style={{ margin: '0 0 12px', fontSize: 24, fontWeight: 500 }}>
-          {count} <span style={{ fontSize: 13, fontWeight: 400, color: 'var(--text-secondary)' }}>patients</span>
+        <p style={{ margin: '0 0 8px', ...type.label01, color: 'var(--text-accent)' }}>{e.label}</p>
+        <p style={{ margin: '0 0 12px', ...type.heading03 }}>
+          {e.alert} <span style={{ ...type.helperText01, color: 'var(--text-secondary)' }}>patients</span>
         </p>
         <p style={{ margin: 0, color: 'var(--text-secondary)' }}>
-          typically {avgCount} for this window &middot; {delta >= 0 ? `+${delta}` : delta} this period
+          typically {e.avg} for this window &middot; {delta >= 0 ? `+${delta}` : delta} this period
         </p>
       </div>
     )
@@ -47,26 +37,9 @@ export function InsightPanel({ mode, range, hoveredNode, hoveredEdge }: InsightP
     const t = tiers.find((x) => x.id === hoveredNode)!
     return (
       <div style={panelStyle}>
-        <p style={{ margin: '0 0 8px', fontSize: 13, fontWeight: 500, color: 'var(--text-primary)' }}>{t.label}</p>
-        <p style={{ margin: 0, fontSize: 24, fontWeight: 500 }}>
-          {t.pop} <span style={{ fontSize: 13, fontWeight: 400, color: 'var(--text-secondary)' }}>patients currently in this tier</span>
-        </p>
-      </div>
-    )
-  }
-
-  const total = edges.reduce((sum, e) => sum + edgeCount(e.alert, e.avg, mode, range), 0)
-  const avgTotal = edges.reduce((sum, e) => sum + Math.round(e.avg * rangeMultiplier[range]), 0)
-  const [atRisk, risingRisk] = edges.map((e) => edgeCount(e.alert, e.avg, mode, range))
-
-  if (mode === 'alert') {
-    return (
-      <div style={panelStyle}>
-        <p style={{ margin: '0 0 12px', color: 'var(--text-primary)' }}>
-          {total} patients moved into high risk this window — {risingRisk} from rising risk, {atRisk} from at risk.
-        </p>
-        <p style={{ margin: 0, color: 'var(--text-secondary)' }}>
-          That's roughly {(total / avgTotal).toFixed(1)}× the typical volume for a {range}-week window ({avgTotal}).
+        <p style={{ margin: '0 0 8px', ...type.label01, color: 'var(--text-primary)' }}>{t.label}</p>
+        <p style={{ margin: 0, ...type.heading03 }}>
+          {t.pop} <span style={{ ...type.helperText01, color: 'var(--text-secondary)' }}>patients currently in this tier</span>
         </p>
       </div>
     )
@@ -75,11 +48,9 @@ export function InsightPanel({ mode, range, hoveredNode, hoveredEdge }: InsightP
   return (
     <div style={panelStyle}>
       <p style={{ margin: '0 0 12px', color: 'var(--text-primary)' }}>
-        Typically about {avgTotal} patients move into high risk over a {range}-week window.
+        340 moved to the high risk segment in the past eleven days.
       </p>
-      <p style={{ margin: 0, color: 'var(--text-secondary)' }}>
-        Hover a connection or switch to alert window to compare against what moved this period.
-      </p>
+      <p style={{ margin: 0, color: 'var(--text-secondary)' }}>This is four times the normal.</p>
     </div>
   )
 }
