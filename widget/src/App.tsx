@@ -1,10 +1,11 @@
 import { useEffect, useRef, useState } from 'react'
 import { ActionBar } from './components/ActionBar'
+import { ContentHeader } from './components/ContentHeader'
 import { LeftNav } from './components/LeftNav'
 import { MigrationReview } from './components/MigrationReview'
 import { PromptBar } from './components/PromptBar'
 import { Toast } from './components/Toast'
-import { spacing, type } from './tokens'
+import { spacing } from './tokens'
 
 function App() {
   const [toast, setToast] = useState<string | null>(null)
@@ -22,21 +23,24 @@ function App() {
     <div style={{ display: 'flex', minHeight: '100vh' }}>
       <LeftNav />
 
-      <div style={{ flex: 1, maxWidth: 960, margin: '0 auto', padding: `${spacing.spacing04}px` }}>
-        <h2 className="sr-only">Test</h2>
+      <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column' }}>
+        <ContentHeader title="Review 238 patients. The AI could not confidently explain their move to High Risk. Manual validation may save $60K." />
 
-        <div style={{ marginBottom: '1rem' }}>
-          <h2 style={{ margin: '0 0 4px', ...type.heading02 }}>
-            340 patients moved to high risk, 238 of them look like a data issue
-          </h2>
-          <p style={{ margin: 0, ...type.helperText01, color: 'var(--text-secondary)' }}>past 11 days</p>
+        <div
+          style={{
+            flex: 1,
+            maxWidth: 960,
+            width: '100%',
+            margin: '0 auto',
+            padding: `${spacing.spacing04}px`,
+            paddingBottom: spacing.spacing10 + spacing.spacing08,
+          }}
+        >
+          <MigrationReview />
+          <ActionBar onAction={showToast} />
+          <PromptBar />
+          <Toast message={toast} />
         </div>
-
-        <MigrationReview />
-
-        <ActionBar onAction={showToast} />
-        <PromptBar />
-        <Toast message={toast} />
       </div>
     </div>
   )

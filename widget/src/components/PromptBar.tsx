@@ -1,4 +1,7 @@
+import { Attachment } from '@carbon/icons-react'
 import { useState } from 'react'
+import { spacing } from '../tokens'
+import { IconButton } from './Button'
 import { ModelSelector, ModelSelectorTrigger, type ModelOption } from './elements/model-selector'
 import { PromptInput, PromptInputSubmit, PromptInputTextarea, PromptInputToolbar, PromptInputTools } from './elements/prompt-input'
 
@@ -9,31 +12,58 @@ const riskModels: ModelOption[] = [
   { id: 'xgb', label: 'Custom XGBoost v3', group: 'ML models', description: 'internal' },
 ]
 
+/** Matches LeftNav width so the fixed bar lines up with the main column. */
+const NAV_WIDTH = 256
+
 export function PromptBar() {
   const [modelOpen, setModelOpen] = useState(false)
   const [model, setModel] = useState('lace')
 
   return (
-    <div style={{ borderTop: '0.5px solid var(--border)', paddingTop: 12 }}>
-      <PromptInput onSubmit={() => {}}>
-        <PromptInputTextarea placeholder="Ask about this flow..." />
-        <PromptInputToolbar>
-          <PromptInputTools>
-            <ModelSelectorTrigger value={model} options={riskModels} onClick={() => setModelOpen(true)} />
-          </PromptInputTools>
-          <PromptInputSubmit />
-        </PromptInputToolbar>
-      </PromptInput>
+    <div
+      style={{
+        position: 'fixed',
+        bottom: spacing.spacing08,
+        left: NAV_WIDTH,
+        right: 0,
+        zIndex: 50,
+        display: 'flex',
+        justifyContent: 'center',
+        padding: `0 ${spacing.spacing04}px`,
+        pointerEvents: 'none',
+      }}
+    >
+      <div style={{ width: '100%', maxWidth: 960, pointerEvents: 'auto' }}>
+        <PromptInput onSubmit={() => {}}>
+          <PromptInputTextarea placeholder="Ask anything..." />
+          <PromptInputToolbar>
+            <PromptInputTools>
+              <ModelSelectorTrigger value={model} options={riskModels} onClick={() => setModelOpen(true)} />
+              <span
+                aria-hidden
+                style={{
+                  width: 1,
+                  alignSelf: 'stretch',
+                  background: 'var(--border)',
+                  flexShrink: 0,
+                }}
+              />
+              <IconButton icon={Attachment} label="Attach file" variant="secondary" />
+            </PromptInputTools>
+            <PromptInputSubmit />
+          </PromptInputToolbar>
+        </PromptInput>
 
-      <ModelSelector
-        open={modelOpen}
-        onOpenChange={setModelOpen}
-        options={riskModels}
-        value={model}
-        onSelect={setModel}
-        placeholder="Search risk models..."
-        title="Select risk model"
-      />
+        <ModelSelector
+          open={modelOpen}
+          onOpenChange={setModelOpen}
+          options={riskModels}
+          value={model}
+          onSelect={setModel}
+          placeholder="Search risk models..."
+          title="Select risk model"
+        />
+      </div>
     </div>
   )
 }

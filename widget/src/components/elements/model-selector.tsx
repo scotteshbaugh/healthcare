@@ -7,10 +7,11 @@
  * so the provider-logo union type is dropped in favor of a plain options list
  * the caller supplies (e.g. risk-stratification models, not AI models).
  */
-import { Checkmark } from '@carbon/icons-react'
+import { Checkmark, ChevronDown } from '@carbon/icons-react'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator } from 'cmdk'
 import type { ReactNode } from 'react'
 import { radius, spacing, type } from '../../tokens'
+import { Button } from '../Button'
 import './command.css'
 
 export interface ModelOption {
@@ -117,24 +118,8 @@ export interface ModelSelectorTriggerProps {
 export function ModelSelectorTrigger({ value, options, onClick, placeholder = 'Select model' }: ModelSelectorTriggerProps) {
   const selected = options.find((o) => o.id === value)
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: spacing.spacing02,
-        height: 32,
-        padding: `0 ${spacing.spacing03}px`,
-        borderRadius: radius.radius03,
-        border: '0.5px solid var(--border-strong)',
-        background: 'transparent',
-        color: 'var(--text-primary)',
-        cursor: 'pointer',
-        ...type.label01,
-      }}
-    >
+    <Button variant="ghost" icon={ChevronDown} onClick={onClick}>
       {selected ? selected.label : placeholder}
-    </button>
+    </Button>
   )
 }

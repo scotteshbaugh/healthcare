@@ -29,6 +29,9 @@
   --border: var(--gray-20);
   --border-strong: var(--gray-50);
 
+  --brand: var(--cyan-40);
+  --brand-hover: var(--cyan-50);
+
   --bg-accent: var(--blue-10);
   --text-accent: var(--blue-60);
   --border-accent: var(--blue-60);
@@ -54,6 +57,9 @@
 
     --border: var(--gray-80);
     --border-strong: var(--gray-60);
+
+    --brand: var(--cyan-40);
+    --brand-hover: var(--cyan-50);
 
     --bg-accent: var(--blue-90);
     --text-accent: var(--blue-40);

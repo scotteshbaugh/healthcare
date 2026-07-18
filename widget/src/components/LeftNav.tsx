@@ -1,11 +1,12 @@
-import { ChevronDown, Dashboard, Folder, OverflowMenuHorizontal, Search, SidePanelClose, Star } from '@carbon/icons-react'
+import { ChevronDown, DataVis_4, Folder, OverflowMenuHorizontal, Search, SidePanelClose, Star } from '@carbon/icons-react'
 import type { CarbonIconType } from '@carbon/icons-react'
 import { useState } from 'react'
 import { radius, spacing, type } from '../tokens'
+import { IconButton } from './Button'
 import './left-nav.css'
 
 const navItems: { label: string; icon: CarbonIconType }[] = [
-  { label: 'Mosaic', icon: Dashboard },
+  { label: 'Mosaic', icon: DataVis_4 },
   { label: 'Projects', icon: Folder },
   { label: 'Starred', icon: Star },
   { label: 'More', icon: OverflowMenuHorizontal },
@@ -13,7 +14,7 @@ const navItems: { label: string; icon: CarbonIconType }[] = [
 
 // Dummy data -- a population-health analyst's recent sessions in this tool.
 const recentConversations = [
-  'High-risk migration review — wk 29',
+  'Review 238 patients. The AI could not confidently explain their move to High Risk. Manual validation may save $60K.',
   'LACE model drift investigation',
   'Quarantine: 2 flagged sites',
   'Q2 readmission cohort comparison',
@@ -21,30 +22,7 @@ const recentConversations = [
   'HCC risk score audit',
 ]
 
-function IconButton({ icon: Icon, label }: { icon: CarbonIconType; label: string }) {
-  return (
-    <button
-      type="button"
-      aria-label={label}
-      className="nav-icon-btn"
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: 32,
-        height: 32,
-        padding: 0,
-        border: '0.5px solid var(--border-strong)',
-        borderRadius: radius.radius03,
-        background: 'transparent',
-        color: 'var(--text-primary)',
-        cursor: 'pointer',
-      }}
-    >
-      <Icon size={16} />
-    </button>
-  )
-}
+const activeConversation = recentConversations[0]
 
 function NavRow({ icon: Icon, label }: { icon: CarbonIconType; label: string }) {
   return (
@@ -59,8 +37,6 @@ function NavRow({ icon: Icon, label }: { icon: CarbonIconType; label: string }) 
         padding: `0 ${spacing.spacing03}px`,
         border: 'none',
         borderRadius: radius.radius03,
-        background: 'transparent',
-        color: 'var(--text-secondary)',
         cursor: 'pointer',
         ...type.body01,
       }}
@@ -89,8 +65,8 @@ export function LeftNav() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <h1 style={{ margin: 0, ...type.heading04, color: 'var(--text-primary)' }}>HF Health</h1>
         <div style={{ display: 'flex', gap: spacing.spacing02 }}>
-          <IconButton icon={Search} label="Search" />
-          <IconButton icon={SidePanelClose} label="Toggle sidebar" />
+          <IconButton icon={Search} label="Search" className="nav-icon-btn" />
+          <IconButton icon={SidePanelClose} label="Toggle sidebar" className="nav-icon-btn" />
         </div>
       </div>
 
@@ -103,58 +79,51 @@ export function LeftNav() {
       <div style={{ display: 'flex', flexDirection: 'column', gap: spacing.spacing01 }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: `0 ${spacing.spacing03}px` }}>
           <span style={{ ...type.headingCompact01, color: 'var(--text-primary)' }}>Recents</span>
-          <button
-            type="button"
+          <IconButton
+            icon={ChevronDown}
+            label={recentsOpen ? 'Collapse recents' : 'Expand recents'}
             className="nav-icon-btn"
-            aria-label={recentsOpen ? 'Collapse recents' : 'Expand recents'}
             aria-expanded={recentsOpen}
             onClick={() => setRecentsOpen((open) => !open)}
             style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
               width: 24,
               height: 24,
-              padding: 0,
               border: 'none',
-              borderRadius: radius.radius03,
-              background: 'transparent',
               color: 'var(--text-secondary)',
-              cursor: 'pointer',
               transform: recentsOpen ? 'rotate(0deg)' : 'rotate(-90deg)',
               transition: 'transform 0.15s ease',
             }}
-          >
-            <ChevronDown size={16} />
-          </button>
+          />
         </div>
 
         {recentsOpen && (
           <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {recentConversations.map((title) => (
-              <button
-                key={title}
-                type="button"
-                className="nav-row"
-                style={{
-                  display: 'block',
-                  width: '100%',
-                  textAlign: 'left',
-                  border: 'none',
-                  borderRadius: radius.radius03,
-                  background: 'transparent',
-                  color: 'var(--text-secondary)',
-                  cursor: 'pointer',
-                  padding: `${spacing.spacing02}px ${spacing.spacing03}px`,
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  ...type.body01,
-                }}
-              >
-                {title}
-              </button>
-            ))}
+            {recentConversations.map((title) => {
+              const isActive = title === activeConversation
+              return (
+                <button
+                  key={title}
+                  type="button"
+                  className="nav-row"
+                  aria-current={isActive ? 'page' : undefined}
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    textAlign: 'left',
+                    border: 'none',
+                    borderRadius: radius.radius03,
+                    cursor: 'pointer',
+                    padding: `${spacing.spacing02}px ${spacing.spacing03}px`,
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    ...type.body01,
+                  }}
+                >
+                  {title}
+                </button>
+              )
+            })}
           </div>
         )}
       </div>

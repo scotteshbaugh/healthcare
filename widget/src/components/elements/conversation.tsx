@@ -9,7 +9,8 @@
 import { ArrowDown } from '@carbon/icons-react'
 import type { HTMLAttributes, ReactNode } from 'react'
 import { StickToBottom, useStickToBottomContext } from 'use-stick-to-bottom'
-import { radius, spacing, type } from '../../tokens'
+import { spacing, type } from '../../tokens'
+import { IconButton } from '../Button'
 
 export type ConversationProps = Parameters<typeof StickToBottom>[0]
 
@@ -76,28 +77,18 @@ export const ConversationScrollButton = (props: HTMLAttributes<HTMLButtonElement
   if (isAtBottom) return null
 
   return (
-    <button
-      type="button"
+    <IconButton
+      icon={ArrowDown}
+      label="Scroll to bottom"
+      variant="secondary"
       onClick={() => scrollToBottom()}
       style={{
         position: 'absolute',
         bottom: spacing.spacing04,
         left: '50%',
         transform: 'translateX(-50%)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: 32,
-        height: 32,
-        borderRadius: radius.full,
-        border: '0.5px solid var(--border-strong)',
-        background: 'var(--surface-2)',
-        color: 'var(--text-primary)',
-        cursor: 'pointer',
       }}
       {...props}
-    >
-      <ArrowDown size={16} />
-    </button>
+    />
   )
 }

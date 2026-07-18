@@ -1,4 +1,4 @@
-import { radius, type } from '../tokens'
+import { radius, spacing, type } from '../tokens'
 
 interface ToastProps {
   message: string | null
@@ -12,7 +12,7 @@ export function Toast({ message }: ToastProps) {
       style={{
         position: 'fixed',
         left: '50%',
-        bottom: 24,
+        bottom: spacing.spacing10 + spacing.spacing08,
         transform: 'translateX(-50%)',
         background: 'var(--surface-2)',
         border: '0.5px solid var(--border-strong)',

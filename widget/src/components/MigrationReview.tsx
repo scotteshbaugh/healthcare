@@ -12,8 +12,8 @@ export function MigrationReview() {
     <div
       style={{
         display: 'grid',
-        gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)',
-        gap: spacing.spacing03,
+        gridTemplateColumns: 'minmax(0,1fr) minmax(0,2fr)',
+        gap: spacing.spacing01,
         alignItems: 'stretch',
       }}
     >

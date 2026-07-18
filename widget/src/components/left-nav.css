@@ -1,10 +1,15 @@
 /**
- * Hover states for LeftNav -- inline styles can't express :hover, so the
- * interactive rows/buttons live here. Everything else about LeftNav is
- * inline, styled from tokens.ts.
+ * Hover / active states for LeftNav -- mirrors IconButton ghost:
+ * no fill by default, surface-1 on hover; active uses that same fill.
  */
 
-.nav-row:hover {
+.nav-row {
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.nav-row:hover,
+.nav-row[aria-current='page'] {
   background: var(--surface-1);
   color: var(--text-primary);
 }

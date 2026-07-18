@@ -1,0 +1,57 @@
+/**
+ * Button styles. Layout and color live here so :hover can win over the
+ * global `button:hover` rule in theme.css (inline backgrounds can't).
+ *
+ * variant = primary | secondary | ghost (visual style)
+ * .btn--icon = square icon-only; default .btn = text (+ optional icon)
+ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-02);
+  height: 32px;
+  padding: 0 var(--spacing-03);
+  border: none;
+  border-radius: var(--radius-00);
+  cursor: pointer;
+}
+
+.btn--icon {
+  width: 32px;
+  padding: 0;
+}
+
+.btn:disabled {
+  color: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.btn--primary {
+  background: var(--brand);
+  color: var(--gray-100);
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: var(--brand-hover);
+}
+
+.btn--secondary {
+  background: var(--surface-2);
+  color: var(--text-primary);
+}
+
+.btn--secondary:hover:not(:disabled) {
+  background: var(--surface-1);
+}
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text-primary);
+}
+
+.btn--ghost:hover:not(:disabled) {
+  background: var(--surface-1);
+}

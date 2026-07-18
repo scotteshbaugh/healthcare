@@ -13,6 +13,7 @@ import { Close, Return, Stop } from '@carbon/icons-react'
 import type { FormEvent, FormHTMLAttributes, HTMLAttributes, KeyboardEvent, TextareaHTMLAttributes } from 'react'
 import { useCallback, useState } from 'react'
 import { radius, spacing, type } from '../../tokens'
+import { IconButton } from '../Button'
 
 export type PromptInputStatus = 'idle' | 'submitted' | 'streaming' | 'error'
 
@@ -38,9 +39,9 @@ export const PromptInput = ({ onSubmit, style, children, ...props }: PromptInput
       style={{
         display: 'flex',
         flexDirection: 'column',
-        border: '0.5px solid var(--border)',
-        borderRadius: radius.radius00,
-        background: 'var(--surface-2)',
+        gap: spacing.spacing01,
+        border: 'none',
+        background: 'transparent',
         ...style,
       }}
       {...props}
@@ -89,8 +90,9 @@ export const PromptInputTextarea = ({
         maxHeight: 192,
         fieldSizing: 'content',
         resize: 'none',
-        border: 'none',
-        background: 'transparent',
+        border: '0.5px solid var(--border)',
+        borderRadius: radius.radius00,
+        background: 'var(--surface-2)',
         color: 'var(--text-primary)',
         outline: 'none',
         padding: spacing.spacing04,
@@ -110,7 +112,9 @@ export const PromptInputToolbar = ({ style, ...props }: HTMLAttributes<HTMLDivEl
       justifyContent: 'space-between',
       gap: spacing.spacing02,
       padding: spacing.spacing02,
-      borderTop: '0.5px solid var(--border)',
+      border: '0.5px solid var(--border)',
+      borderRadius: radius.radius00,
+      background: 'var(--surface-2)',
       ...style,
     }}
     {...props}
@@ -129,17 +133,15 @@ export interface PromptInputSubmitProps extends HTMLAttributes<HTMLButtonElement
 
 export const PromptInputSubmit = ({ status = 'idle', disabled, onStop, onClick, style, ...props }: PromptInputSubmitProps) => {
   const isGenerating = status === 'submitted' || status === 'streaming'
-
-  let icon = <Return size={16} />
-  if (status === 'submitted') icon = <Return size={16} style={{ opacity: 0.5 }} />
-  else if (status === 'streaming') icon = <Stop size={16} />
-  else if (status === 'error') icon = <Close size={16} />
+  const icon = status === 'streaming' ? Stop : status === 'error' ? Close : Return
 
   return (
-    <button
+    <IconButton
+      icon={icon}
+      label={isGenerating ? 'Stop' : 'Submit'}
+      variant="secondary"
       type={isGenerating && onStop ? 'button' : 'submit'}
       disabled={disabled}
-      aria-label={isGenerating ? 'Stop' : 'Submit'}
       onClick={(e) => {
         if (isGenerating && onStop) {
           e.preventDefault()
@@ -149,23 +151,10 @@ export const PromptInputSubmit = ({ status = 'idle', disabled, onStop, onClick, 
         onClick?.(e)
       }}
       style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: 32,
-        height: 32,
-        padding: 0,
-        borderRadius: radius.radius03,
-        border: '0.5px solid var(--border-strong)',
-        background: 'transparent',
-        color: 'var(--text-primary)',
-        cursor: disabled ? 'not-allowed' : 'pointer',
-        opacity: disabled ? 0.5 : 1,
+        ...(status === 'submitted' ? { opacity: 0.5 } : {}),
         ...style,
       }}
       {...props}
-    >
-      {icon}
-    </button>
+    />
   )
 }
