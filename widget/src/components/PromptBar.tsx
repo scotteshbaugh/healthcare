@@ -1,6 +1,7 @@
 import { Attachment } from '@carbon/icons-react'
 import { useState } from 'react'
 import { spacing } from '../tokens'
+import { PANEL_WIDTH } from './ActionPlanPanel'
 import { IconButton } from './Button'
 import { ModelSelector, ModelSelectorTrigger, type ModelOption } from './elements/model-selector'
 import { PromptInput, PromptInputSubmit, PromptInputTextarea, PromptInputToolbar, PromptInputTools } from './elements/prompt-input'
@@ -15,7 +16,12 @@ const riskModels: ModelOption[] = [
 /** Matches LeftNav width so the fixed bar lines up with the main column. */
 const NAV_WIDTH = 256
 
-export function PromptBar() {
+export interface PromptBarProps {
+  /** Whether ActionPlanPanel is open -- pushes this bar's right edge over by the same amount. */
+  panelOpen?: boolean
+}
+
+export function PromptBar({ panelOpen = false }: PromptBarProps) {
   const [modelOpen, setModelOpen] = useState(false)
   const [model, setModel] = useState('lace')
 
@@ -25,15 +31,16 @@ export function PromptBar() {
         position: 'fixed',
         bottom: spacing.spacing08,
         left: NAV_WIDTH,
-        right: 0,
+        right: panelOpen ? PANEL_WIDTH : 0,
         zIndex: 50,
         display: 'flex',
         justifyContent: 'center',
         padding: `0 ${spacing.spacing04}px`,
         pointerEvents: 'none',
+        transition: 'right 200ms ease',
       }}
     >
-      <div style={{ width: '100%', maxWidth: 960, pointerEvents: 'auto' }}>
+      <div style={{ width: '100%', maxWidth: 1080, pointerEvents: 'auto' }}>
         <PromptInput onSubmit={() => {}}>
           <PromptInputTextarea placeholder="Ask anything..." />
           <PromptInputToolbar>

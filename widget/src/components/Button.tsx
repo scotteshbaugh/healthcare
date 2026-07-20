@@ -1,6 +1,6 @@
 import type { CarbonIconType } from '@carbon/icons-react'
 import type { ButtonHTMLAttributes, ReactNode } from 'react'
-import { type } from '../tokens'
+import { type as typeToken } from '../tokens'
 import './button.css'
 
 /** Visual style — primary (filled brand), secondary (surface), ghost (no fill). */
@@ -73,7 +73,7 @@ export function Button({
       type={type}
       disabled={disabled}
       className={btnClass(variant, false, className)}
-      style={{ ...type.label01, ...style }}
+      style={{ ...typeToken.label01, ...style }}
       {...props}
     >
       {Icon && iconPosition === 'start' && <Icon size={iconSize} aria-hidden="true" />}

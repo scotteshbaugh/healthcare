@@ -3,10 +3,10 @@ import type { MigrationEdge, Tier } from './types'
 // Baseline segments, roughly 40,000 -- shaped like real counts, not round ones.
 export const tiers: Tier[] = [
   { id: 'healthy', label: 'Low risk', pop: 26422, angle: -90 },
-  { id: 'at-risk', label: 'At risk', pop: 6743, angle: -18 },
-  { id: 'rising-risk', label: 'Rising risk', pop: 3958, angle: 54 },
-  { id: 'high-risk', label: 'High risk', pop: 2411, angle: 126, highlight: true },
-  { id: 'complex', label: 'Complex', pop: 386, angle: 198 },
+  { id: 'at-risk', label: 'At risk', pop: 6743, angle: -18, netMovement: -61 },
+  { id: 'rising-risk', label: 'Rising risk', pop: 3958, angle: 54, netMovement: -279 },
+  { id: 'high-risk', label: 'High risk', pop: 2411, angle: 126, highlight: true, netMovement: 340 },
+  { id: 'complex', label: 'Catastrophic', pop: 386, angle: 198 },
 ]
 
 export const edges: MigrationEdge[] = [

@@ -1,0 +1,37 @@
+/**
+ * The chord diagram is a fixed-size SVG (420x390, unscaled -- see TierDiagram.tsx)
+ * sitting next to a 200px cards column. Below the width where both still fit,
+ * dropping the SVG into a horizontal scroll just crowds it against the cards.
+ * A container query (not a viewport media query) is needed here because this
+ * row's available width also shrinks when the action plan panel opens, not
+ * just on viewport resize.
+ */
+
+.tier-diagram-row {
+  container-type: inline-size;
+}
+
+.tier-diagram-svg-pane {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+}
+
+.tier-diagram-cards-pane {
+  width: 200px;
+  flex-shrink: 0;
+}
+
+/* 420px svg + 200px cards + the row's gap no longer fit -- hide the chart
+   and let the cards take the full row instead of overlapping it. */
+@container (max-width: 640px) {
+  .tier-diagram-svg-pane {
+    display: none;
+  }
+
+  .tier-diagram-cards-pane {
+    width: 100%;
+  }
+}

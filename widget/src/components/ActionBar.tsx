@@ -1,14 +1,20 @@
 import { Checkmark, Locked, Phone } from '@carbon/icons-react'
 import type { CarbonIconType } from '@carbon/icons-react'
-import { useState } from 'react'
+import { spacing, type } from '../tokens'
+import type { ActionPlanItem } from '../types'
+import { Button, type ButtonVariant } from './Button'
+import { Card } from './Card'
 
 interface Action {
   id: string
   label: string
   doneLabel: string
+  description: string
   icon: CarbonIconType
-  prompt: string
-  accent?: boolean
+  variant: ButtonVariant
+  /** What shows up as the plan card once this action is approved. */
+  planTitle: string
+  planSummary: string
 }
 
 const actions: Action[] = [
@@ -16,54 +22,54 @@ const actions: Action[] = [
     id: 'quarantine',
     label: 'Quarantine',
     doneLabel: 'Quarantined',
+    description: 'Quarantine 238 patients who moved to High Risk, but likely because of EHR data issues',
     icon: Locked,
-    prompt: 'Quarantine the 73 patients who migrated into high risk this window and hold them pending review.',
+    variant: 'primary',
+    planTitle: 'Quarantine 238 patients',
+    planSummary:
+      "Fires a data-quality ticket and holds these patients at their prior tier with a review date. Once the two sites' feeds are validated, the model re-scores against clean data and the quarantine lifts — most settle back, a few are genuinely high risk.",
   },
   {
     id: 'outreach',
     label: 'Approve outreach',
     doneLabel: 'Outreach approved',
+    description: '102 patients show standard signs of deterioration and need intervention.',
     icon: Phone,
-    prompt: 'Approve outreach to the patients who migrated into high risk this window.',
-  },
-  {
-    id: 'sign',
-    label: 'Sign off',
-    doneLabel: 'Signed off',
-    icon: Checkmark,
-    prompt: 'Sign off on this high-risk migration batch as reviewed.',
-    accent: true,
+    variant: 'secondary',
+    planTitle: 'Approve outreach for 102 patients',
+    planSummary:
+      'Standard procedure: care coordination places an outreach call and schedules a care-plan check-in within 5 business days. No change to tier status.',
   },
 ]
 
 interface ActionBarProps {
-  onAction: (prompt: string) => void
+  planItemIds: Set<string>
+  onAddToPlan: (item: ActionPlanItem) => void
 }
 
-export function ActionBar({ onAction }: ActionBarProps) {
-  const [done, setDone] = useState<Record<string, boolean>>({})
-
+export function ActionBar({ planItemIds, onAddToPlan }: ActionBarProps) {
   return (
-    <div style={{ display: 'flex', gap: 8, margin: '1.5rem 0 1rem', flexWrap: 'wrap' }}>
+    <div style={{ display: 'flex', gap: spacing.spacing04, margin: '1.5rem 0 1rem', flexWrap: 'wrap' }}>
       {actions.map((action) => {
-        const isDone = done[action.id]
-        const Icon = isDone ? Checkmark : action.icon
+        const isDone = planItemIds.has(action.id)
         return (
-          <button
-            key={action.id}
-            onClick={() => {
-              setDone((prev) => ({ ...prev, [action.id]: true }))
-              onAction(action.prompt)
-            }}
-            style={{
-              background: isDone ? 'var(--bg-success)' : 'transparent',
-              borderColor: isDone ? 'var(--border-success)' : action.accent ? 'var(--border-accent)' : 'var(--border-strong)',
-              color: isDone ? 'var(--text-success)' : action.accent ? 'var(--text-accent)' : 'var(--text-primary)',
-            }}
-          >
-            <Icon aria-hidden="true" size={16} style={{ marginRight: 6, verticalAlign: '-2px' }} />
-            {isDone ? action.doneLabel : action.label}
-          </button>
+          <Card key={action.id} style={{ flex: 1, minWidth: 240 }}>
+            <p style={{ margin: 0, ...type.body01, color: 'var(--text-primary)' }}>{action.description}</p>
+            <Button
+              variant={action.variant}
+              icon={isDone ? Checkmark : action.icon}
+              iconPosition="start"
+              onClick={() => onAddToPlan({ id: action.id, title: action.planTitle, summary: action.planSummary })}
+              style={{
+                maxWidth: 180,
+                alignSelf: 'flex-end',
+                marginTop: 'auto',
+                ...(isDone ? { background: 'var(--bg-success)', color: 'var(--text-success)' } : {}),
+              }}
+            >
+              {isDone ? action.doneLabel : action.label}
+            </Button>
+          </Card>
         )
       })}
     </div>

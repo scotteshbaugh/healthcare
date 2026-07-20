@@ -63,7 +63,7 @@ export function LeftNav() {
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <h1 style={{ margin: 0, ...type.heading04, color: 'var(--text-primary)' }}>HF Health</h1>
+        <h1 style={{ margin: 0, ...type.heading04, color: 'var(--text-primary)' }}>Orchard</h1>
         <div style={{ display: 'flex', gap: spacing.spacing02 }}>
           <IconButton icon={Search} label="Search" className="nav-icon-btn" />
           <IconButton icon={SidePanelClose} label="Toggle sidebar" className="nav-icon-btn" />

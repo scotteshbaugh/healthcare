@@ -1,15 +1,8 @@
 import { ChevronLeft, ChevronRight } from '@carbon/icons-react'
 import type { CSSProperties, ReactNode } from 'react'
 import { useState } from 'react'
-import { edges, tiers } from '../data'
 import { spacing, type } from '../tokens'
-import type { TierId } from '../types'
 import { IconButton } from './Button'
-
-interface InsightPanelProps {
-  hoveredNode: TierId | null
-  hoveredEdge: string | null
-}
 
 const slides = [
   {
@@ -26,7 +19,7 @@ const slides = [
   },
 ]
 
-export function InsightPanel({ hoveredNode, hoveredEdge }: InsightPanelProps) {
+export function InsightPanel() {
   const [index, setIndex] = useState(0)
   const count = slides.length
 
@@ -47,42 +40,13 @@ export function InsightPanel({ hoveredNode, hoveredEdge }: InsightPanelProps) {
     setIndex((i) => (i + 1) % count)
   }
 
-  let body: ReactNode
-
-  if (hoveredEdge) {
-    const e = edges.find((x) => x.id === hoveredEdge)!
-    const delta = e.alert - e.avg
-    body = (
-      <>
-        <p style={{ margin: '0 0 8px', ...type.label01, color: 'var(--text-accent)' }}>{e.label}</p>
-        <p style={{ margin: '0 0 12px', ...type.heading03 }}>
-          {e.alert} <span style={{ ...type.helperText01, color: 'var(--text-secondary)' }}>patients</span>
-        </p>
-        <p style={{ margin: 0, color: 'var(--text-secondary)' }}>
-          typically {e.avg} for this window &middot; {delta >= 0 ? `+${delta}` : delta} this period
-        </p>
-      </>
-    )
-  } else if (hoveredNode) {
-    const t = tiers.find((x) => x.id === hoveredNode)!
-    body = (
-      <>
-        <p style={{ margin: '0 0 8px', ...type.label01, color: 'var(--text-primary)' }}>{t.label}</p>
-        <p style={{ margin: 0, ...type.heading03 }}>
-          {t.pop}{' '}
-          <span style={{ ...type.helperText01, color: 'var(--text-secondary)' }}>patients currently in this tier</span>
-        </p>
-      </>
-    )
-  } else {
-    const slide = slides[index]
-    body = (
-      <>
-        <p style={{ margin: '0 0 12px', ...type.heading03, color: 'var(--text-primary)' }}>{slide.headline}</p>
-        <p style={{ margin: 0, color: 'var(--text-secondary)' }}>{slide.detail}</p>
-      </>
-    )
-  }
+  const slide = slides[index]
+  const body: ReactNode = (
+    <>
+      <p style={{ margin: '0 0 12px', ...type.heading03, color: 'var(--text-primary)' }}>{slide.headline}</p>
+      <p style={{ margin: 0, color: 'var(--text-secondary)' }}>{slide.detail}</p>
+    </>
+  )
 
   return (
     <div style={panelStyle}>

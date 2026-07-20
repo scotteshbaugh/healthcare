@@ -6,6 +6,8 @@ export interface Tier {
   pop: number
   angle: number
   highlight?: boolean
+  /** Net change this window. Omitted where there's no movement to report (e.g. Low risk, Catastrophic). */
+  netMovement?: number
 }
 
 export interface MigrationEdge {
@@ -15,4 +17,11 @@ export interface MigrationEdge {
   label: string
   alert: number
   avg: number
+}
+
+/** A committed action awaiting sign-off, shown as a card in the Action plan panel. */
+export interface ActionPlanItem {
+  id: string
+  title: string
+  summary: string
 }

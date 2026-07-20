@@ -1,0 +1,9 @@
+/**
+ * Hover state for the ActionPlanPanel's handle -- inline styles can't
+ * express :hover.
+ */
+
+.action-plan-handle:hover {
+  background: var(--surface-1);
+  color: var(--text-primary);
+}
