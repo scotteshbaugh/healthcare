@@ -62,7 +62,9 @@ export function TierDiagram() {
               </marker>
             </defs>
 
-            {/* Ghost trace: every tier that could feed into high risk, not just the ones that did */}
+            {/* Ghost trace: every tier that could feed into high risk, not just the ones that did.
+                Dashed since it's a possibility, not an observed movement -- the tiers that did
+                move (at-risk, rising-risk) get a real solid edge drawn on top of this. */}
             {possibleConnections.map((t) => (
               <path
                 key={`possible-${t.id}`}
@@ -70,6 +72,7 @@ export function TierDiagram() {
                 fill="none"
                 stroke="var(--surface-2)"
                 strokeWidth={GHOST_STROKE_WIDTH}
+                strokeDasharray="4 4"
                 pointerEvents="none"
               />
             ))}

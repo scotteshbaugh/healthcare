@@ -11,7 +11,7 @@ import { Card } from './Card'
  */
 export function TierSummaryCards() {
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: spacing.spacing02 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: spacing.spacing03 }}>
       {tiers.map((t) => {
         const hasMovement = t.netMovement !== undefined
         const isGain = hasMovement && t.netMovement! > 0
@@ -27,6 +27,8 @@ export function TierSummaryCards() {
               gap: spacing.spacing04,
               padding: spacing.spacing03,
               background: 'var(--surface-1)',
+              // Active-state indicator -- High risk is the tier currently under review.
+              ...(t.highlight ? { border: `${spacing.spacing01}px solid var(--brand)` } : {}),
             }}
           >
             <div>
